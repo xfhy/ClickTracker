@@ -1,2 +1,3 @@
+include ':annotation'
 include ':app'
 rootProject.name = "ClickTracker"
