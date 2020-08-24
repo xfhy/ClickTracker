@@ -14,3 +14,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 public @interface NoFastClickTrack {
 }
+
+//todo xfhy 未实现
