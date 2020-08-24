@@ -1,4 +1,4 @@
-package com.xfhy.annotation;
+package com.xfhy.library;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
