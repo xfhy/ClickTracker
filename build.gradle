@@ -1,6 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
+        //本地依赖
+        maven {
+            url uri('./repo')
+        }
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
         google()
         jcenter()
@@ -10,11 +14,17 @@ buildscript {
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+
+        //本地依赖
+        classpath 'com.xfhy.plugin:plugin:1.0'
     }
 }
 
 allprojects {
     repositories {
+        maven {
+            url uri('./repo')
+        }
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
         google()
         jcenter()

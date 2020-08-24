@@ -24,9 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btnTest1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (FastClickUtil.shouldDoClick(v)) {
-                    Log.d("xfhy777", "按钮1 点击事件");
-                }
+                Log.d("xfhy777", "按钮1 点击事件");
             }
         });
         findViewById(R.id.btnTest2).setOnClickListener(this);
@@ -34,8 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (FastClickUtil.shouldDoClick(v)) {
-            Log.d("xfhy777", "按钮2 点击事件");
-        }
+        Log.d("xfhy777", "按钮2 点击事件");
     }
+
 }
