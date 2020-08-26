@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * Description : 不需要防抖,则加入这个注解
  */
 @Retention(RetentionPolicy.CLASS)
-@Target({ElementType.METHOD})
+@Target({ElementType.METHOD,ElementType.TYPE})
 public @interface NoFastClickTrack {
 }
 
