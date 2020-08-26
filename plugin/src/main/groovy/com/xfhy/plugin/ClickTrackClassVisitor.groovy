@@ -14,10 +14,33 @@ class ClickTrackClassVisitor extends ClassVisitor {
 
     private static final String NO_TRACE_ANNOTATION = "Lcom/xfhy/library/NoFastClickTrack;"
 
+    /**
+     * 当前类是否需要防抖
+     */
     private boolean mClassNeedTrace = true
+
+    /**
+     * 当前类名称
+     */
+    private String mClassName
+    /**
+     * 父类名称
+     */
+    private String mSuperName
+    /**
+     * 用于存储父类是否需要防抖
+     */
+    private static HashMap<String, Boolean> mSuperClassNeedTrace = new HashMap<>()
 
     ClickTrackClassVisitor(ClassVisitor classVisitor) {
         super(Opcodes.ASM7, classVisitor)
+    }
+
+    @Override
+    void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+        super.visit(version, access, name, signature, superName, interfaces)
+        mClassName = name
+        mSuperName = superName
     }
 
     /**
@@ -25,9 +48,12 @@ class ClickTrackClassVisitor extends ClassVisitor {
      */
     @Override
     AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-        println("注解--------$descriptor")
+        //println("注解--------$descriptor")
         if (NO_TRACE_ANNOTATION == descriptor) {
             mClassNeedTrace = false
+            mSuperClassNeedTrace.put(mClassName, false)
+        } else {
+            mSuperClassNeedTrace.put(mClassName, true)
         }
         return super.visitAnnotation(descriptor, visible)
     }
@@ -35,9 +61,11 @@ class ClickTrackClassVisitor extends ClassVisitor {
     @Override
     MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
         def methodVisitor = cv.visitMethod(access, name, descriptor, signature, exceptions)
-        println("visitMethod  ---  外层")
+        if (mSuperName != null && mSuperName != "" && !mSuperClassNeedTrace.get(mClassName)) {
+            println("$mClassName 是不需要插桩的,因为外部类已经有NoFastClickTrack注解了")
+            return methodVisitor
+        }
         if (mClassNeedTrace && name == "onClick" && descriptor == "(Landroid/view/View;)V") {
-            println("visitMethod  ---  自定义的")
             return new FastMethodVisitor(api, methodVisitor, access, name, descriptor)
         } else {
             return methodVisitor
