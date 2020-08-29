@@ -1,6 +1,17 @@
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'maven'
+apply plugin: 'com.novoda.bintray-release'
+
+publish {
+    userOrg = 'xfhy'//bintray.com用户名
+    groupId = 'com.ClickTracker.xfhy'//jcenter上的路径
+    artifactId = 'ClickTracker'//项目名称
+    repoName = "ClickTracker"
+    publishVersion = '1.0.0'//版本号
+    desc = 'Make ClickTracker'//描述，不重要
+    website = 'https://github.com/xfhy/ClickTracker'//网站，不重要
+}
 
 sourceSets {
     main {
@@ -34,6 +45,15 @@ version '1.0'
 
 repositories {
     mavenLocal()
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.novoda:bintray-release:0.9.1'
+    }
 }
 
 uploadArchives {
